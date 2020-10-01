@@ -14,6 +14,7 @@ class PlaidAuthenticator extends Component {
     const {
       clientName,
       countryCodes,
+      language,
       env,
       plaidRef,
       product,
@@ -30,6 +31,7 @@ class PlaidAuthenticator extends Component {
     let uri = `https://cdn.plaid.com/link/v2/stable/link.html?key=${publicKey}&apiVersion=v2&env=${env}&product=${product}&clientName=${clientName}&isWebView=true&isMobile=true&selectAccount=${selectAccount}`;
     uri =
       countryCodes !== undefined ? `${uri}&countryCodes=${countryCodes}` : uri;
+    uri = language !== undefined ? `${uri}&language=${language}` : uri;
     uri = token !== undefined ? `${uri}&token=${token}` : uri;
     uri =
       paymentToken !== undefined ? `${uri}&paymentToken=${paymentToken}` : uri;
@@ -45,6 +47,7 @@ class PlaidAuthenticator extends Component {
         {...omit(this.props, [
           "clientName",
           "countryCodes",
+          "language",
           "env",
           "product",
           "publicKey",
