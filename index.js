@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { WebView } from 'react-native-webview';
-import { PropTypes } from 'prop-types';
-import omit from 'object.omit';
+import React, { Component } from "react";
+import { WebView } from "react-native-webview";
+import { PropTypes } from "prop-types";
+import omit from "object.omit";
 
 const injectedJavaScript = `(function() {
   window.postMessage = function(data) {
@@ -21,38 +21,40 @@ class PlaidAuthenticator extends Component {
       selectAccount,
       style,
       token,
+      paymentToken,
       userEmail,
       userLegalName,
-      webhook
+      webhook,
     } = this.props;
 
-    let uri = `https://cdn.plaid.com/link/v2/stable/link.html?key=${
-      publicKey
-    }&apiVersion=v2&env=${env}&product=${product}&clientName=${
-      clientName
-    }&isWebView=true&isMobile=true&selectAccount=${
-      selectAccount
-    }`;
-    uri = countryCodes !== undefined ? `${uri}&countryCodes=${countryCodes}` : uri;
+    let uri = `https://cdn.plaid.com/link/v2/stable/link.html?key=${publicKey}&apiVersion=v2&env=${env}&product=${product}&clientName=${clientName}&isWebView=true&isMobile=true&selectAccount=${selectAccount}`;
+    uri =
+      countryCodes !== undefined ? `${uri}&countryCodes=${countryCodes}` : uri;
     uri = token !== undefined ? `${uri}&token=${token}` : uri;
+    uri =
+      paymentToken !== undefined ? `${uri}&paymentToken=${paymentToken}` : uri;
     uri = userEmail !== undefined ? `${uri}&userEmail=${userEmail}` : uri;
-    uri = userLegalName !== undefined ? `${uri}&userLegalName=${userLegalName}` : uri;
+    uri =
+      userLegalName !== undefined
+        ? `${uri}&userLegalName=${userLegalName}`
+        : uri;
     uri = webhook !== undefined ? `${uri}&webhook=${webhook}` : uri;
 
     return (
       <WebView
         {...omit(this.props, [
-          'clientName',
-          'countryCodes',
-          'env',
-          'product',
-          'publicKey',
-          'ref',
-          'selectAccount',
-          'token',
-          'userEmail',
-          'userLegalName',
-          'webhook'
+          "clientName",
+          "countryCodes",
+          "env",
+          "product",
+          "publicKey",
+          "ref",
+          "selectAccount",
+          "token",
+          "paymentToken",
+          "userEmail",
+          "userLegalName",
+          "webhook",
         ])}
         ref={plaidRef}
         source={{ uri }}
@@ -63,7 +65,7 @@ class PlaidAuthenticator extends Component {
     );
   }
 
-  onMessage = e => {
+  onMessage = (e) => {
     /*
       Response example for success
       {
@@ -97,12 +99,12 @@ PlaidAuthenticator.propTypes = {
   publicKey: PropTypes.string.isRequired,
   userEmail: PropTypes.string,
   userLegalName: PropTypes.string,
-  webhook: PropTypes.string
+  webhook: PropTypes.string,
 };
 
 PlaidAuthenticator.defaultProps = {
-  clientName: '',
-  plaidRef: () => {}
+  clientName: "",
+  plaidRef: () => {},
 };
 
 export default PlaidAuthenticator;
